@@ -49,6 +49,17 @@ export class User {
     get updatedAt() {
         return this._updatedAt;
     }
+    set cpf(cpf: string) {
+        this._cpf = cpf;
+        this.touch()
+    }
+    set name(name: string) {
+        this._name = name;
+        this.touch()
+    }
+    private touch() {
+        this._updatedAt = new Date()
+    }
 
     constructor({ id, name, password, cpf, role, createdAt, createdBy, updatedAt }: UserProps) {
         this._id = id ?? randomUUID()
