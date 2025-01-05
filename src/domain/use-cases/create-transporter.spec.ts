@@ -4,6 +4,7 @@ import { UserFactory } from "test/factories/make-user"
 import { FakeCpfValidator } from "test/services/fake-cpf-validator"
 import { CreateTransporterUseCase } from "./create-transporter"
 import { UserRoles } from "../entities/user"
+import { NotFoundError } from "./errors/not-found-error"
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let hasher: FakePasswordHasher
@@ -36,5 +37,22 @@ describe('Create transporter', () => {
             id: result.user.id,
             createdBy: admin.id
         }))
+    })
+    it('should not be able to create a transporter by another transporter', async () => {
+        const transporter = UserFactory.makeUser({
+            password: await hasher.hash('123456'),
+            role: UserRoles.TRANSPORTER
+        })
+        inMemoryUsersRepository.items.push(transporter)
+
+        await expect(() =>
+            sut.execute({
+                name: 'John Doe',
+                cpf: '12345678901',
+                password: '123456',
+                adminId: transporter.id
+            })
+        ).rejects.toBeInstanceOf(NotFoundError)
+        expect(inMemoryUsersRepository.items.length).toBe(1)
     })
 })

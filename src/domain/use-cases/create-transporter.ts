@@ -1,12 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { UsersRepository } from "../repositories/users-repository";
-import { WrongCredentialsError } from "./errors/wrong-credentials-error";
 import { PasswordHasher } from "../services/password-hasher";
-import { Encrypter } from "../services/encrypter";
 import { AlreadyExistsError } from "./errors/already-exists-error";
 import { CpfValidator } from "../services/cpfValidator";
 import { InvalidCpfError } from "./errors/invalid-cpf-error";
 import { User, UserRoles } from "../entities/user";
+import { NotFoundError } from "./errors/not-found-error";
 
 interface CreateTransporterUseCaseRequest {
     name: string
@@ -26,7 +25,7 @@ export class CreateTransporterUseCase {
 
         const admin = await this.usersRepository.findById(adminId)
         if (!admin || admin.role !== 'admin') {
-            throw new WrongCredentialsError()
+            throw new NotFoundError(adminId)
         }
 
         const isCpfValid = await this.cpfValidator.validate(cpf)
