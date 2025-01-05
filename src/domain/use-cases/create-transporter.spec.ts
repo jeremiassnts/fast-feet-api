@@ -10,7 +10,7 @@ let hasher: FakePasswordHasher
 let cpfValidator: FakeCpfValidator
 let sut: CreateTransporterUseCase
 
-describe('Authenticate user', () => {
+describe('Create transporter', () => {
     beforeEach(() => {
         inMemoryUsersRepository = new InMemoryUsersRepository()
         hasher = new FakePasswordHasher()
