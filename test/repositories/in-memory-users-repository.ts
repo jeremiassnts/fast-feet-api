@@ -21,4 +21,8 @@ export class InMemoryUsersRepository extends UsersRepository {
         this.items[index].name = user.name
         return user
     }
+    async delete(userId: string): Promise<void> {
+        const index = this.items.findIndex(u => userId === u.id)
+        this.items[index].deletedAt = new Date()
+    }
 }
