@@ -10,6 +10,10 @@ export interface UserProps {
     password: string;
     cpf: string;
     role: UserRoles;
+    createdBy?: string | null
+    createdAt: Date
+    updatedAt?: Date | null
+    deletedAt?: Date | null
 }
 
 export class User {
@@ -18,6 +22,10 @@ export class User {
     private _password: string;
     private _cpf: string;
     private _role: UserRoles;
+    private _createdBy: string;
+    private _createdAt: Date;
+    private _updatedAt: Date;
+    private _deletedAt: Date;
 
     get id() {
         return this._id;
@@ -34,12 +42,42 @@ export class User {
     get role() {
         return this._role;
     }
+    get createdBy() {
+        return this._createdBy;
+    }
+    get createdAt() {
+        return this._createdAt;
+    }
+    get updatedAt() {
+        return this._updatedAt;
+    }
+    get deletedAt() {
+        return this._deletedAt;
+    }
+    set cpf(cpf: string) {
+        this._cpf = cpf;
+        this.touch()
+    }
+    set name(name: string) {
+        this._name = name;
+        this.touch()
+    }
+    set deletedAt(deletedAt: Date) {
+        this._deletedAt = deletedAt
+    }
+    private touch() {
+        this._updatedAt = new Date()
+    }
 
-    constructor({ id, name, password, cpf, role }: UserProps) {
+    constructor({ id, name, password, cpf, role, createdAt, createdBy, updatedAt, deletedAt }: UserProps) {
         this._id = id ?? randomUUID()
         this._name = name
         this._password = password
         this._cpf = cpf
         this._role = role
+        this._createdBy = createdBy
+        this._createdAt = createdAt
+        this._updatedAt = updatedAt ?? null
+        this._deletedAt = deletedAt ?? null
     }
 }
