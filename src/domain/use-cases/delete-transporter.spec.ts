@@ -54,8 +54,6 @@ describe('Delete transporter', () => {
         inMemoryUsersRepository.items.push(transporter)
 
         await expect(() => sut.execute({
-            name: 'John Smith',
-            cpf: '12345678901',
             adminId: transporter.id,
             transporterId: transporter.id
         })).rejects.toBeInstanceOf(NotFoundError)

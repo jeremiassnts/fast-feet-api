@@ -25,4 +25,8 @@ export class InMemoryUsersRepository extends UsersRepository {
         const index = this.items.findIndex(u => userId === u.id)
         this.items[index].deletedAt = new Date()
     }
+    async fetchActive(page: number, top: number): Promise<User[]> {
+        const transporters = this.items.filter(user => !user.deletedAt)
+        return transporters.slice((page - 1) * top, page * top)
+    }
 }
