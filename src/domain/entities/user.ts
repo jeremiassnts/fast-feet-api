@@ -65,6 +65,10 @@ export class User {
     set deletedAt(deletedAt: Date) {
         this._deletedAt = deletedAt
     }
+    set password(password: string) {
+        this._password = password
+        this.touch()
+    }
     private touch() {
         this._updatedAt = new Date()
     }
