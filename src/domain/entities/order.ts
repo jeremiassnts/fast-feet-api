@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 
 export enum OrderStatus {
+    CREATED = 'created',
     WAITING = 'waiting',
     PICKEDUP = 'pickedup',
     DELIVERED = 'delivered',
@@ -86,7 +87,7 @@ export class Order {
 
     constructor({ id, status, createdAt, deliveryAddress, deliveryCoordinates, deliveryPhoto, recipientEmail, transporterId, updatedAt, deletedAt }: OrderProps) {
         this._id = id ?? randomUUID()
-        this._status = status ?? OrderStatus.WAITING
+        this._status = status ?? OrderStatus.CREATED
         this._transporterId = transporterId ?? null
         this._deliveryPhoto = deliveryPhoto ?? null
         this._recipientEmail = recipientEmail

@@ -5,7 +5,7 @@ export class OrderFactory {
     constructor() { }
     static makeOrder(override: Partial<OrderProps> = {}) {
         const order = new Order({
-            status: OrderStatus.WAITING,
+            status: OrderStatus.CREATED,
             createdAt: new Date(),
             deliveryAddress: faker.location.streetAddress(),
             deliveryCoordinates: faker.location.latitude() + ':' + faker.location.longitude(),

@@ -24,7 +24,7 @@ export class CreateOrderUseCase {
             deliveryAddress,
             deliveryCoordinates,
             recipientEmail,
-            status: OrderStatus.WAITING,
+            status: OrderStatus.CREATED,
             createdAt: new Date(),
         })
         await this.ordersRepository.create(newOrder)
