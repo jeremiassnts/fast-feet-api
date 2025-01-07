@@ -1,4 +1,4 @@
-import { Order } from "src/domain/entities/order";
+import { Order, OrderStatus } from "src/domain/entities/order";
 import { OrdersRepository } from "src/domain/repositories/orders-repository";
 
 export class InMemoryOrdersRepository extends OrdersRepository {
@@ -20,5 +20,9 @@ export class InMemoryOrdersRepository extends OrdersRepository {
     async delete(id: string): Promise<void> {
         const index = this.items.findIndex(o => o.id === id)
         this.items[index].deletedAt = new Date()
+    }
+    async fetchDeliveriesByTransporterId(page: number, top: number, transporterId: string): Promise<Order[]> {
+        const deliveries = this.items.filter(order => order.status === OrderStatus.DELIVERED && order.transporterId === transporterId)
+        return deliveries
     }
 }
