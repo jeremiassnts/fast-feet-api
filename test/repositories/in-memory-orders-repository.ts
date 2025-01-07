@@ -7,4 +7,14 @@ export class InMemoryOrdersRepository extends OrdersRepository {
         this.items.push(order);
         return order;
     }
+    async findById(id: string): Promise<Order | null> {
+        const order = this.items.find(item => item.id === id);
+        return order ?? null;
+    }
+    async update(order: Order): Promise<void> {
+        const index = this.items.findIndex(o => o.id === order.id);
+        this.items[index].deliveryAddress = order.deliveryAddress
+        this.items[index].deliveryCoordinates = order.deliveryCoordinates
+        this.items[index].recipientEmail = order.recipientEmail
+    }
 }

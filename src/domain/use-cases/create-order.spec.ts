@@ -1,7 +1,5 @@
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository"
-import { FakePasswordHasher } from "test/services/fake-password-hasher"
 import { UserFactory } from "test/factories/make-user"
-import { FakeCpfValidator } from "test/services/fake-cpf-validator"
 import { CreateOrderUseCase } from "./create-order"
 import { UserRoles } from "../entities/user"
 import { NotFoundError } from "./errors/not-found-error"
