@@ -15,6 +15,7 @@ export interface OrderProps {
     recipientEmail: string;
     deliveryPhoto?: string | null;
     createdAt: Date
+    deletedAt?: Date | null
     updatedAt?: Date | null
 }
 
@@ -27,6 +28,7 @@ export class Order {
     private _recipientEmail: string;
     private _deliveryPhoto: string;
     private _createdAt: Date;
+    private _deletedAt: Date;
     private _updatedAt: Date;
 
     get id() {
@@ -53,6 +55,9 @@ export class Order {
     get createdAt() {
         return this._createdAt;
     }
+    get deletedAt() {
+        return this._deletedAt;
+    }
     get updatedAt() {
         return this._updatedAt;
     }
@@ -72,11 +77,14 @@ export class Order {
         this._recipientEmail = email
         this.touch()
     }
+    set deletedAt(deletedAt: Date) {
+        this._deletedAt = deletedAt
+    }
     private touch() {
         this._updatedAt = new Date()
     }
 
-    constructor({ id, status, createdAt, deliveryAddress, deliveryCoordinates, deliveryPhoto, recipientEmail, transporterId, updatedAt }: OrderProps) {
+    constructor({ id, status, createdAt, deliveryAddress, deliveryCoordinates, deliveryPhoto, recipientEmail, transporterId, updatedAt, deletedAt }: OrderProps) {
         this._id = id ?? randomUUID()
         this._status = status ?? OrderStatus.WAITING
         this._transporterId = transporterId ?? null
@@ -86,5 +94,6 @@ export class Order {
         this._deliveryCoordinates = deliveryCoordinates
         this._createdAt = createdAt ?? new Date()
         this._updatedAt = updatedAt ?? null
+        this._deletedAt = deletedAt ?? null
     }
 }
