@@ -78,6 +78,10 @@ export class Order {
         this._recipientEmail = email
         this.touch()
     }
+    set transporterId(id: string) {
+        this._transporterId = id
+        this.touch()
+    }
     set deletedAt(deletedAt: Date) {
         this._deletedAt = deletedAt
     }
