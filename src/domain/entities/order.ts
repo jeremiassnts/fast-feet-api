@@ -85,6 +85,9 @@ export class Order {
     set deletedAt(deletedAt: Date) {
         this._deletedAt = deletedAt
     }
+    set deliveryPhoto(url: string) {
+        this._deliveryPhoto = url
+    }
     private touch() {
         this._updatedAt = new Date()
     }
