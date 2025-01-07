@@ -17,4 +17,8 @@ export class InMemoryOrdersRepository extends OrdersRepository {
         this.items[index].deliveryCoordinates = order.deliveryCoordinates
         this.items[index].recipientEmail = order.recipientEmail
     }
+    async delete(id: string): Promise<void> {
+        const index = this.items.findIndex(o => o.id === id)
+        this.items[index].deletedAt = new Date()
+    }
 }
