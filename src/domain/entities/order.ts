@@ -56,6 +56,25 @@ export class Order {
     get updatedAt() {
         return this._updatedAt;
     }
+    set status(status: OrderStatus) {
+        this._status = status
+        this.touch()
+    }
+    set deliveryAddress(address: string) {
+        this._deliveryAddress = address
+        this.touch()
+    }
+    set deliveryCoordinates(coordinates: string) {
+        this._deliveryCoordinates = coordinates
+        this.touch()
+    }
+    set recipientEmail(email: string) {
+        this._recipientEmail = email
+        this.touch()
+    }
+    private touch() {
+        this._updatedAt = new Date()
+    }
 
     constructor({ id, status, createdAt, deliveryAddress, deliveryCoordinates, deliveryPhoto, recipientEmail, transporterId, updatedAt }: OrderProps) {
         this._id = id ?? randomUUID()
