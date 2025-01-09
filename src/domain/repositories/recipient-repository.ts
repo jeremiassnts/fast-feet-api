@@ -6,4 +6,5 @@ export abstract class RecipientsRepository {
     abstract findById(id: string): Promise<Recipient | null>
     abstract update(recipient: Recipient): Promise<void>
     abstract delete(recipientId: string): Promise<void>
+    abstract fetchAll(page: number, top: number): Promise<Recipient[]>
 }

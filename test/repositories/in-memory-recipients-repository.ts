@@ -26,4 +26,7 @@ export class InMemoryRecipientsRepository extends RecipientsRepository {
         const index = this.items.findIndex(r => r.id === recipientId)
         this.items.splice(index, 1);
     }
+    async fetchAll(page: number, top: number): Promise<Recipient[]> {
+        return this.items.slice((page - 1) * top, page * top)
+    }
 }
