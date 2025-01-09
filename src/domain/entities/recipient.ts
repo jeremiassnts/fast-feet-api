@@ -45,6 +45,25 @@ export class Recipient {
     get updatedAt() {
         return this._updatedAt;
     }
+    set name(name: string) {
+        this._name = name
+        this.touch()
+    }
+    set address(address: string) {
+        this._address = address
+        this.touch()
+    }
+    set latitude(latitude: number) {
+        this._latitude = latitude
+        this.touch()
+    }
+    set longitude(longitude: number) {
+        this._longitude = longitude
+        this.touch()
+    }
+    private touch() {
+        this._updatedAt = new Date()
+    }
 
     constructor({ id, name, email, address, latitude, longitude, createdAt, updatedAt }: RecipientProps) {
         this._id = id ?? randomUUID()
