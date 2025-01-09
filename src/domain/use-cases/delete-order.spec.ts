@@ -40,12 +40,17 @@ describe('Delete order', () => {
         expect(oldDeletedDate).toBeNull()
     })
 
-    it('should not be able to edit an order with a transporter', async () => {
+    it('should not be able to delete an order with a transporter', async () => {
         const order = OrderFactory.makeOrder()
         inMemoryOrdersRepository.items.push(order)
 
+        const transporter = UserFactory.makeUser({
+            role: UserRoles.TRANSPORTER
+        })
+        inMemoryUsersRepository.items.push(transporter)
+
         await expect(() => sut.execute({
-            adminId: order.id,
+            adminId: transporter.id,
             orderId: order.id
         })).rejects.toBeInstanceOf(NotFoundError)
 

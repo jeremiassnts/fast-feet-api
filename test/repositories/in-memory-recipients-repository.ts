@@ -22,4 +22,8 @@ export class InMemoryRecipientsRepository extends RecipientsRepository {
         const recipient = this.items.find(r => r.id === id)
         return recipient ?? null
     }
+    async delete(recipientId: string): Promise<void> {
+        const index = this.items.findIndex(r => r.id === recipientId)
+        this.items.splice(index, 1);
+    }
 }
