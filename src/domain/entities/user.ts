@@ -80,7 +80,7 @@ export class User {
         this._cpf = cpf
         this._role = role
         this._createdBy = createdBy
-        this._createdAt = createdAt
+        this._createdAt = createdAt ?? new Date()
         this._updatedAt = updatedAt ?? null
         this._deletedAt = deletedAt ?? null
     }
