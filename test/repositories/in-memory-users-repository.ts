@@ -1,7 +1,7 @@
 import { User } from "src/domain/entities/user";
 import { UsersRepository } from "src/domain/repositories/users-repository";
 
-export class InMemoryUsersRepository extends UsersRepository {
+export class InMemoryUsersRepository implements UsersRepository {
     public items: User[] = [];
     async findById(id: string): Promise<User | null> {
         const user = this.items.find(user => user.id === id);

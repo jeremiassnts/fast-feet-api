@@ -11,12 +11,10 @@ export interface OrderProps {
     id?: string;
     status: OrderStatus;
     transporterId?: string | null;
-    deliveryAddress: string;
-    deliveryCoordinates: string;
-    recipientEmail: string;
     deliveryPhoto?: string | null;
     createdAt: Date
     deletedAt?: Date | null
+    recipientId?: string
     updatedAt?: Date | null
 }
 
@@ -24,9 +22,7 @@ export class Order {
     private _id: string;
     private _status: OrderStatus;
     private _transporterId: string;
-    private _deliveryAddress: string;
-    private _deliveryCoordinates: string;
-    private _recipientEmail: string;
+    private _recipientId: string;
     private _deliveryPhoto: string;
     private _createdAt: Date;
     private _deletedAt: Date;
@@ -41,14 +37,8 @@ export class Order {
     get transporterId() {
         return this._transporterId;
     }
-    get deliveryAddress() {
-        return this._deliveryAddress;
-    }
-    get deliveryCoordinates() {
-        return this._deliveryCoordinates;
-    }
-    get recipientEmail() {
-        return this._recipientEmail;
+    get recipientId() {
+        return this._recipientId;
     }
     get deliveryPhoto() {
         return this._deliveryPhoto;
@@ -66,16 +56,8 @@ export class Order {
         this._status = status
         this.touch()
     }
-    set deliveryAddress(address: string) {
-        this._deliveryAddress = address
-        this.touch()
-    }
-    set deliveryCoordinates(coordinates: string) {
-        this._deliveryCoordinates = coordinates
-        this.touch()
-    }
-    set recipientEmail(email: string) {
-        this._recipientEmail = email
+    set recipientId(id: string) {
+        this._recipientId = id
         this.touch()
     }
     set transporterId(id: string) {
@@ -92,14 +74,12 @@ export class Order {
         this._updatedAt = new Date()
     }
 
-    constructor({ id, status, createdAt, deliveryAddress, deliveryCoordinates, deliveryPhoto, recipientEmail, transporterId, updatedAt, deletedAt }: OrderProps) {
+    constructor({ id, status, createdAt, deliveryPhoto, recipientId, transporterId, updatedAt, deletedAt }: OrderProps) {
         this._id = id ?? randomUUID()
         this._status = status ?? OrderStatus.CREATED
         this._transporterId = transporterId ?? null
         this._deliveryPhoto = deliveryPhoto ?? null
-        this._recipientEmail = recipientEmail
-        this._deliveryAddress = deliveryAddress
-        this._deliveryCoordinates = deliveryCoordinates
+        this._recipientId = recipientId
         this._createdAt = createdAt ?? new Date()
         this._updatedAt = updatedAt ?? null
         this._deletedAt = deletedAt ?? null

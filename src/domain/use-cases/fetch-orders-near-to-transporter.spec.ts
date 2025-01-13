@@ -5,14 +5,18 @@ import { UserFactory } from "test/factories/make-user"
 import { UserRoles } from "../entities/user"
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository"
 import { FetchOrdersNearToTransporterUseCase } from "./fetch-orders-near-to-transporter"
+import { InMemoryRecipientsRepository } from "test/repositories/in-memory-recipients-repository"
+import { RecipientFactory } from "test/factories/make-recipient"
 
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryRecipientsRepository: InMemoryRecipientsRepository
 let sut: FetchOrdersNearToTransporterUseCase
 
 describe('Fetch orders near to transporter', () => {
     beforeEach(() => {
-        inMemoryOrdersRepository = new InMemoryOrdersRepository()
+        inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
+        inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository)
         inMemoryUsersRepository = new InMemoryUsersRepository()
         sut = new FetchOrdersNearToTransporterUseCase(inMemoryOrdersRepository)
     })
@@ -26,14 +30,24 @@ describe('Fetch orders near to transporter', () => {
         })
         inMemoryUsersRepository.items.push(transporter1, transporter2)
 
+        const recipientId1 = RecipientFactory.makeRecipient({
+            latitude: -10.956988,
+            longitude: -37.082933
+        })
+        const recipientId2 = RecipientFactory.makeRecipient({
+            latitude: -10.976905,
+            longitude: -37.053563
+        })
+        inMemoryRecipientsRepository.items.push(recipientId1, recipientId2)
+
         const order1 = OrderFactory.makeOrder({
             status: OrderStatus.WAITING,
-            deliveryCoordinates: '-10.956988:-37.082933'
+            recipientId: recipientId1.id
         })
         const order2 = OrderFactory.makeOrder({
             status: OrderStatus.PICKEDUP,
             transporterId: transporter1.id,
-            deliveryCoordinates: '-10.976905:-37.053563'
+            recipientId: recipientId2.id
         })
         const order3 = OrderFactory.makeOrder({
             status: OrderStatus.DELIVERED,

@@ -1,9 +1,11 @@
 import { Order, OrderStatus } from "src/domain/entities/order";
 import { OrdersRepository } from "src/domain/repositories/orders-repository";
 import { MapsUtils } from "src/domain/utils/maps-utils";
+import { InMemoryRecipientsRepository } from "./in-memory-recipients-repository";
 
-export class InMemoryOrdersRepository extends OrdersRepository {
+export class InMemoryOrdersRepository implements OrdersRepository {
     public items: Order[] = [];
+    constructor(private recipientsRepository: InMemoryRecipientsRepository) { }
     async create(order: Order): Promise<Order> {
         this.items.push(order);
         return order;
@@ -14,9 +16,7 @@ export class InMemoryOrdersRepository extends OrdersRepository {
     }
     async update(order: Order): Promise<void> {
         const index = this.items.findIndex(o => o.id === order.id);
-        this.items[index].deliveryAddress = order.deliveryAddress
-        this.items[index].deliveryCoordinates = order.deliveryCoordinates
-        this.items[index].recipientEmail = order.recipientEmail
+        this.items[index].status = order.status
     }
     async delete(id: string): Promise<void> {
         const index = this.items.findIndex(o => o.id === id)
@@ -34,8 +34,9 @@ export class InMemoryOrdersRepository extends OrdersRepository {
             && (order.transporterId === transporterId || !order.transporterId)
         )
             .sort((a, b) => {
-                const latitudeA = parseFloat(a.deliveryCoordinates.split(':')[0])
-                const longitudeA = parseFloat(a.deliveryCoordinates.split(':')[1])
+                const recipient_A = this.recipientsRepository.items.find(item => item.id === a.recipientId)
+                const latitudeA = recipient_A.latitude
+                const longitudeA = recipient_A.longitude
                 const distanceA = MapsUtils.getDifferenceBetweenCoordinates({
                     latitude: latitudeA,
                     longitude: longitudeA
@@ -44,8 +45,9 @@ export class InMemoryOrdersRepository extends OrdersRepository {
                     longitude
                 })
 
-                const latitudeB = parseFloat(b.deliveryCoordinates.split(':')[0])
-                const longitudeB = parseFloat(b.deliveryCoordinates.split(':')[1])
+                const recipient_B = this.recipientsRepository.items.find(item => item.id === b.recipientId)
+                const latitudeB = recipient_B.latitude
+                const longitudeB = recipient_B.longitude
                 const distanceB = MapsUtils.getDifferenceBetweenCoordinates({
                     latitude: latitudeB,
                     longitude: longitudeB

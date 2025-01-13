@@ -1,7 +1,7 @@
 import { Recipient } from "src/domain/entities/recipient";
 import { RecipientsRepository } from "src/domain/repositories/recipient-repository";
 
-export class InMemoryRecipientsRepository extends RecipientsRepository {
+export class InMemoryRecipientsRepository implements RecipientsRepository {
     async update(recipient: Recipient): Promise<void> {
         const index = this.items.findIndex(o => o.id === recipient.id);
         this.items[index].name = recipient.name
