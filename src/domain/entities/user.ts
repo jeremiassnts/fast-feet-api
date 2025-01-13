@@ -22,7 +22,6 @@ export class User {
     private _password: string;
     private _cpf: string;
     private _role: UserRoles;
-    private _createdBy: string;
     private _createdAt: Date;
     private _updatedAt: Date;
     private _deletedAt: Date;
@@ -41,9 +40,6 @@ export class User {
     }
     get role() {
         return this._role;
-    }
-    get createdBy() {
-        return this._createdBy;
     }
     get createdAt() {
         return this._createdAt;
@@ -79,7 +75,6 @@ export class User {
         this._password = password
         this._cpf = cpf
         this._role = role
-        this._createdBy = createdBy
         this._createdAt = createdAt ?? new Date()
         this._updatedAt = updatedAt ?? null
         this._deletedAt = deletedAt ?? null

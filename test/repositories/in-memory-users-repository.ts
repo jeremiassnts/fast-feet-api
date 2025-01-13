@@ -17,7 +17,6 @@ export class InMemoryUsersRepository implements UsersRepository {
     }
     async update(user: User): Promise<User> {
         const index = this.items.findIndex(u => user.id === u.id)
-        this.items[index].cpf = user.cpf
         this.items[index].name = user.name
         return user
     }

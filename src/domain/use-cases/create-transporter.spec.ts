@@ -35,7 +35,6 @@ describe('Create transporter', () => {
 
         expect(inMemoryUsersRepository.items[1]).toEqual(expect.objectContaining({
             id: result.user.id,
-            createdBy: admin.id
         }))
     })
     it('should not be able to create a transporter by another transporter', async () => {

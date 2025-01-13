@@ -36,7 +36,6 @@ describe('Edit transporter', () => {
 
         await sut.execute({
             name: 'John Smith',
-            cpf: '12345678901',
             adminId: admin.id,
             transporterId: transporter.id
         })
@@ -44,14 +43,12 @@ describe('Edit transporter', () => {
         const updatedTransporter = inMemoryUsersRepository.items.find(user => user.id === transporter.id)
         expect(updatedTransporter).toEqual(expect.objectContaining({
             name: 'John Smith',
-            cpf: '12345678901'
         }))
     })
 
     it('should not be able to edit a transporter with a transporter', async () => {
         const transporter = UserFactory.makeUser({
             name: 'John Doe',
-            cpf: '1234567890',
             password: await hasher.hash('123456'),
             role: UserRoles.TRANSPORTER
         })
@@ -59,14 +56,12 @@ describe('Edit transporter', () => {
 
         await expect(() => sut.execute({
             name: 'John Smith',
-            cpf: '12345678901',
             adminId: transporter.id,
             transporterId: transporter.id
         })).rejects.toBeInstanceOf(NotFoundError)
 
         expect(inMemoryUsersRepository.items[0]).toEqual(expect.objectContaining({
             name: 'John Doe',
-            cpf: '1234567890',
         }))
     })
 })
