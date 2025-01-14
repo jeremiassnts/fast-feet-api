@@ -15,7 +15,7 @@ export class PrismaUsersRepository implements UsersRepository {
         })
         if (!user) return null
 
-        return PrismaUserMapper.ToDomain(user)
+        return PrismaUserMapper.toDomain(user)
     }
     async findById(id: string): Promise<User | null> {
         const user = await this.prisma.user.findFirst({
@@ -24,7 +24,7 @@ export class PrismaUsersRepository implements UsersRepository {
             }
         })
         if (!user) return null
-        return PrismaUserMapper.ToDomain(user)
+        return PrismaUserMapper.toDomain(user)
     }
     async create(user: User): Promise<User> {
         const newUser = await this.prisma.user.create({
@@ -36,7 +36,7 @@ export class PrismaUsersRepository implements UsersRepository {
                 createdAt: new Date(),
             }
         })
-        return PrismaUserMapper.ToDomain(newUser)
+        return PrismaUserMapper.toDomain(newUser)
     }
     async update(user: User): Promise<User> {
         const updatedUser = await this.prisma.user.update({
@@ -48,7 +48,7 @@ export class PrismaUsersRepository implements UsersRepository {
             },
         })
 
-        return PrismaUserMapper.ToDomain(updatedUser)
+        return PrismaUserMapper.toDomain(updatedUser)
     }
     async delete(userId: string): Promise<void> {
         await this.prisma.user.update({
@@ -68,7 +68,7 @@ export class PrismaUsersRepository implements UsersRepository {
             take: top,
             skip: (page - 1) * top
         })
-        return users.map(PrismaUserMapper.ToDomain)
+        return users.map(PrismaUserMapper.toDomain)
     }
 
 }

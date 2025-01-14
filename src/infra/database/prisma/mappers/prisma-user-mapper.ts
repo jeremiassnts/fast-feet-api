@@ -2,7 +2,7 @@ import { User as PrismaUser } from "@prisma/client";
 import { User, UserRoles } from "src/domain/entities/user";
 
 export class PrismaUserMapper {
-    public static ToDomain(data: PrismaUser): User {
+    public static toDomain(data: PrismaUser): User {
         return new User({
             id: data.id,
             name: data.name,
@@ -13,5 +13,17 @@ export class PrismaUserMapper {
             updatedAt: data.updatedAt,
             deletedAt: data.deletedAt
         })
+    }
+    public static toPrisma(data: User): PrismaUser {
+        return {
+            id: data.id,
+            name: data.name,
+            password: data.password,
+            cpf: data.cpf,
+            role: data.role === UserRoles.ADMIN ? 'ADMIN' : 'TRANSPORTER',
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+            deletedAt: data.deletedAt
+        }
     }
 }
