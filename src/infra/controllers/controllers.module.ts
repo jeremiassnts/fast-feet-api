@@ -8,16 +8,20 @@ import { Encrypter } from "src/domain/services/encrypter";
 import { JwtEncrypter } from "../services/jwt-encrypter";
 import { JwtService } from "@nestjs/jwt";
 import { EnvService } from "../env/env.service";
+import { ChangePasswordController } from "./change-password.controller";
+import { ChangePasswordUseCase } from "src/domain/use-cases/change-password";
 
 @Module({
     imports: [DatabaseModule],
     controllers: [
-        AuthenticateController
+        AuthenticateController,
+        ChangePasswordController
     ],
     providers: [
         JwtService,
         EnvService,
         AuthenticateUseCase,
+        ChangePasswordUseCase,
         {
             provide: PasswordHasher,
             useClass: Bcrypthasher

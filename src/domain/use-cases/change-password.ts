@@ -1,7 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { UsersRepository } from "../repositories/users-repository";
-import { CpfValidator } from "../services/cpfValidator";
-import { InvalidCpfError } from "./errors/invalid-cpf-error";
 import { NotFoundError } from "./errors/not-found-error";
 import { PasswordHasher } from "../services/password-hasher";
 

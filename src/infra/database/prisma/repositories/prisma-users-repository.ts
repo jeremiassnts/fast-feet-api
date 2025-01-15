@@ -42,6 +42,7 @@ export class PrismaUsersRepository implements UsersRepository {
         const updatedUser = await this.prisma.user.update({
             data: {
                 name: user.name,
+                password: user.password
             },
             where: {
                 id: user.id,

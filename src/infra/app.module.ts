@@ -4,6 +4,7 @@ import { envSchema } from './env/env';
 import { EnvModule } from './env/env.module';
 import { EnvService } from './env/env.service';
 import { ControllersModule } from './controllers/controllers.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { ControllersModule } from './controllers/controllers.module';
       isGlobal: true
     }),
     EnvModule,
-    ControllersModule
+    ControllersModule,
+    AuthModule
   ],
   providers: [EnvService],
 })
