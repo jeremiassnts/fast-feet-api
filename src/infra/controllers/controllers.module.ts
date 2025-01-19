@@ -12,13 +12,16 @@ import { ChangePasswordController } from "./change-password.controller";
 import { ChangePasswordUseCase } from "src/domain/use-cases/change-password";
 import { CreateOrderController } from "./create-order.controller";
 import { CreateOrderUseCase } from "src/domain/use-cases/create-order";
+import { CreateRecipientController } from "./create-recipient.controller";
+import { CreateRecipientUseCase } from "src/domain/use-cases/create-recipient";
 
 @Module({
     imports: [DatabaseModule],
     controllers: [
         AuthenticateController,
         ChangePasswordController,
-        CreateOrderController
+        CreateOrderController,
+        CreateRecipientController,
     ],
     providers: [
         JwtService,
@@ -26,6 +29,7 @@ import { CreateOrderUseCase } from "src/domain/use-cases/create-order";
         AuthenticateUseCase,
         ChangePasswordUseCase,
         CreateOrderUseCase,
+        CreateRecipientUseCase,
         {
             provide: PasswordHasher,
             useClass: Bcrypthasher

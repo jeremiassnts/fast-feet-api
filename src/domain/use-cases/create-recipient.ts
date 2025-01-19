@@ -36,7 +36,6 @@ export class CreateRecipientUseCase {
             longitude,
             createdAt: new Date()
         }))
-        await this.recipientsRepository.create(newRecipient)
 
         return {
             recipient: newRecipient,
