@@ -14,6 +14,10 @@ import { CreateOrderController } from "./create-order.controller";
 import { CreateOrderUseCase } from "src/domain/use-cases/create-order";
 import { CreateRecipientController } from "./create-recipient.controller";
 import { CreateRecipientUseCase } from "src/domain/use-cases/create-recipient";
+import { CreateTransporterController } from "./create-transporter.controller";
+import { CreateTransporterUseCase } from "src/domain/use-cases/create-transporter";
+import { CpfValidator } from "src/domain/services/cpfValidator";
+import { CvCpfValidator } from "../services/cpf-validator";
 
 @Module({
     imports: [DatabaseModule],
@@ -22,6 +26,7 @@ import { CreateRecipientUseCase } from "src/domain/use-cases/create-recipient";
         ChangePasswordController,
         CreateOrderController,
         CreateRecipientController,
+        CreateTransporterController
     ],
     providers: [
         JwtService,
@@ -30,6 +35,7 @@ import { CreateRecipientUseCase } from "src/domain/use-cases/create-recipient";
         ChangePasswordUseCase,
         CreateOrderUseCase,
         CreateRecipientUseCase,
+        CreateTransporterUseCase,
         {
             provide: PasswordHasher,
             useClass: Bcrypthasher
@@ -37,6 +43,10 @@ import { CreateRecipientUseCase } from "src/domain/use-cases/create-recipient";
         {
             provide: Encrypter,
             useClass: JwtEncrypter
+        },
+        {
+            provide: CpfValidator,
+            useClass: CvCpfValidator
         }
     ],
 })
