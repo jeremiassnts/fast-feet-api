@@ -36,6 +36,8 @@ import { MarkOrderAsPickedUpController } from './mark-order-as-picked-up.control
 import { MarkOrderAsPickedUpUseCase } from 'src/domain/use-cases/mark-order-as-picked-up';
 import { MarkOrderAsReturnedController } from './mark-order-as-returned.controller';
 import { MarkOrderAsReturnedUseCase } from 'src/domain/use-cases/mark-order-as-returned';
+import { MarkOrderAsWaitingUseCase } from 'src/domain/use-cases/mark-order-as-waiting';
+import { MarkOrderAsWaitingController } from './mark-order-as-waiting.controller';
 
 @Module({
   imports: [DatabaseModule],
@@ -53,6 +55,7 @@ import { MarkOrderAsReturnedUseCase } from 'src/domain/use-cases/mark-order-as-r
     MarkOrderAsDeliveredController,
     MarkOrderAsPickedUpController,
     MarkOrderAsReturnedController,
+    MarkOrderAsWaitingController
   ],
   providers: [
     JwtService,
@@ -70,6 +73,7 @@ import { MarkOrderAsReturnedUseCase } from 'src/domain/use-cases/mark-order-as-r
     MarkOrderAsDeliveredUseCase,
     MarkOrderAsPickedUpUseCase,
     MarkOrderAsReturnedUseCase,
+    MarkOrderAsWaitingUseCase,
     {
       provide: PasswordHasher,
       useClass: Bcrypthasher,
