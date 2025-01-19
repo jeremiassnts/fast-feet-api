@@ -1,32 +1,33 @@
-import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository"
-import { UserFactory } from "test/factories/make-user"
-import { MarkOrderAsReturnedUseCase } from "./mark-order-as-returned"
-import { UserRoles } from "../entities/user"
-import { NotFoundError } from "./errors/not-found-error"
-import { InMemoryOrdersRepository } from "test/repositories/in-memory-orders-repository"
-import { OrderFactory } from "test/factories/make-order"
-import { OrderStatus } from "../entities/order"
+import { MarkOrderAsReturnedUseCase } from './mark-order-as-returned';
+import { InMemoryOrdersRepository } from 'test/repositories/in-memory-orders-repository';
+import { OrderFactory } from 'test/factories/make-order';
+import { OrderStatus } from '../entities/order';
+import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipients-repository';
 
-let inMemoryOrdersRepository: InMemoryOrdersRepository
-let sut: MarkOrderAsReturnedUseCase
+let inMemoryOrdersRepository: InMemoryOrdersRepository;
+let inMemoryRecipientsRepository: InMemoryRecipientsRepository;
+let sut: MarkOrderAsReturnedUseCase;
 
 describe('Mark an order as returned', () => {
-    beforeEach(() => {
-        inMemoryOrdersRepository = new InMemoryOrdersRepository()
-        sut = new MarkOrderAsReturnedUseCase(inMemoryOrdersRepository)
-    })
+  beforeEach(() => {
+    inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository);
+    sut = new MarkOrderAsReturnedUseCase(inMemoryOrdersRepository);
+  });
 
-    it('should be able to mark an order as returned', async () => {
-        const order = OrderFactory.makeOrder()
-        inMemoryOrdersRepository.items.push(order)
-        const oldStatus = order.status
+  it('should be able to mark an order as returned', async () => {
+    const order = OrderFactory.makeOrder();
+    inMemoryOrdersRepository.items.push(order);
+    const oldStatus = order.status;
 
-        await sut.execute({
-            orderId: order.id
-        })
+    await sut.execute({
+      orderId: order.id,
+    });
 
-        const updatedOrder = inMemoryOrdersRepository.items.find(o => o.id === order.id)
-        expect(oldStatus).toEqual(OrderStatus.CREATED)
-        expect(updatedOrder.status).toEqual(OrderStatus.RETURNED)
-    })
-})
+    const updatedOrder = inMemoryOrdersRepository.items.find(
+      (o) => o.id === order.id,
+    );
+    expect(oldStatus).toEqual(OrderStatus.CREATED);
+    expect(updatedOrder.status).toEqual(OrderStatus.RETURNED);
+  });
+});

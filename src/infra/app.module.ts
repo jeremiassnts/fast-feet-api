@@ -10,12 +10,12 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ConfigModule.forRoot({
       validate: (env) => envSchema.parse(env),
-      isGlobal: true
+      isGlobal: true,
     }),
     EnvModule,
     ControllersModule,
-    AuthModule
+    AuthModule,
   ],
   providers: [EnvService],
 })
-export class AppModule { }
+export class AppModule {}
