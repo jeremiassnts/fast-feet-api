@@ -38,6 +38,8 @@ export class PrismaOrderMapper {
         return new Order({
             id: order.id,
             status: PrismaOrderMapper.toDomainStatus(order.status),
+            title: order.title,
+            description: order.description,
             transporterId: order.transporterId,
             recipientId: order.recipientId,
             deliveryPhoto: order.deliveryPhoto,
@@ -45,5 +47,19 @@ export class PrismaOrderMapper {
             deletedAt: order.deletedAt,
             updatedAt: order.updatedAt,
         })
+    }
+    public static toPrisma(data: Order): PrismaOrder {
+        return {
+            id: data.id,
+            deliveryPhoto: data.deliveryPhoto,
+            description: data.description,
+            recipientId: data.recipientId,
+            status: PrismaOrderMapper.toPrismaStatus(data.status),
+            title: data.title,
+            transporterId: data.title,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+            deletedAt: data.deletedAt
+        }
     }
 }

@@ -10,6 +10,8 @@ export enum OrderStatus {
 export interface OrderProps {
     id?: string;
     status: OrderStatus;
+    title: string;
+    description: string;
     transporterId?: string | null;
     deliveryPhoto?: string | null;
     createdAt: Date
@@ -21,6 +23,8 @@ export interface OrderProps {
 export class Order {
     private _id: string;
     private _status: OrderStatus;
+    private _title: string;
+    private _description: string;
     private _transporterId: string;
     private _recipientId: string;
     private _deliveryPhoto: string;
@@ -33,6 +37,12 @@ export class Order {
     }
     get status() {
         return this._status;
+    }
+    get title() {
+        return this._title;
+    }
+    get description() {
+        return this._description;
     }
     get transporterId() {
         return this._transporterId;
@@ -74,9 +84,11 @@ export class Order {
         this._updatedAt = new Date()
     }
 
-    constructor({ id, status, createdAt, deliveryPhoto, recipientId, transporterId, updatedAt, deletedAt }: OrderProps) {
+    constructor({ id, status, createdAt, deliveryPhoto, recipientId, transporterId, updatedAt, deletedAt, description, title }: OrderProps) {
         this._id = id ?? randomUUID()
         this._status = status ?? OrderStatus.CREATED
+        this._title = title
+        this._description = description
         this._transporterId = transporterId ?? null
         this._deliveryPhoto = deliveryPhoto ?? null
         this._recipientId = recipientId

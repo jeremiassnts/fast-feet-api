@@ -4,13 +4,17 @@ import { PrismaService } from "../prisma.service";
 import { PrismaOrderMapper } from "../mappers/prisma-order-mapper";
 import { OrderStatus } from "@prisma/client";
 import { MapsUtils } from "src/domain/utils/maps-utils";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
     constructor(private prisma: PrismaService) { }
     async create(order: Order): Promise<Order> {
         const newOrder = await this.prisma.order.create({
             data: {
                 recipientId: order.recipientId,
+                title: order.title,
+                description: order.description,
                 createdAt: new Date(),
                 status: PrismaOrderMapper.toPrismaStatus(order.status),
                 transporterId: null

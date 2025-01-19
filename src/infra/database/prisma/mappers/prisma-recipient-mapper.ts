@@ -14,4 +14,16 @@ export class PrismaRecipientMapper {
             updatedAt: data.updatedAt,
         })
     }
+    public static toPrisma(data: Recipient): PrismaRecipient {
+        return {
+            id: data.id,
+            name: data.name,
+            address: data.address,
+            email: data.email,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+        }
+    }
 }

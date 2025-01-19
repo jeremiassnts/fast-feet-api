@@ -37,6 +37,8 @@ enum OrderStatus {
 model Order {
     id            String      @id @default(uuid())
     status        OrderStatus @default(CREATED)
+    title         String
+    description   String
     transporter   User?       @relation(fields: [transporterId], references: [id])
     recipient     Recipient   @relation(fields: [recipientId], references: [id])
     deliveryPhoto String?
