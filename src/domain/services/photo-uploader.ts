@@ -1,4 +1,4 @@
-interface PhotoUploaderRequest {
+export interface PhotoUploaderRequest {
     fileType: string
     fileName: string
     body: Buffer
