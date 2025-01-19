@@ -34,6 +34,8 @@ import { PhotoUploader } from 'src/domain/services/photo-uploader';
 import { R2PhotoUploader } from '../services/r2-photo-uploader';
 import { MarkOrderAsPickedUpController } from './mark-order-as-picked-up.controller';
 import { MarkOrderAsPickedUpUseCase } from 'src/domain/use-cases/mark-order-as-picked-up';
+import { MarkOrderAsReturnedController } from './mark-order-as-returned.controller';
+import { MarkOrderAsReturnedUseCase } from 'src/domain/use-cases/mark-order-as-returned';
 
 @Module({
   imports: [DatabaseModule],
@@ -50,6 +52,7 @@ import { MarkOrderAsPickedUpUseCase } from 'src/domain/use-cases/mark-order-as-p
     EditTransporterController,
     MarkOrderAsDeliveredController,
     MarkOrderAsPickedUpController,
+    MarkOrderAsReturnedController,
   ],
   providers: [
     JwtService,
@@ -66,6 +69,7 @@ import { MarkOrderAsPickedUpUseCase } from 'src/domain/use-cases/mark-order-as-p
     EditTransporterUseCase,
     MarkOrderAsDeliveredUseCase,
     MarkOrderAsPickedUpUseCase,
+    MarkOrderAsReturnedUseCase,
     {
       provide: PasswordHasher,
       useClass: Bcrypthasher,
