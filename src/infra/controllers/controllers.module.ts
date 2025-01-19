@@ -20,6 +20,8 @@ import { CpfValidator } from "src/domain/services/cpfValidator";
 import { CvCpfValidator } from "../services/cpf-validator";
 import { DeleteOrderController } from "./delete-order.controller";
 import { DeleteOrderUseCase } from "src/domain/use-cases/delete-order";
+import { DeleteRecipientController } from "./delete-recipient.controller";
+import { DeleteRecipientUseCase } from "src/domain/use-cases/delete-recipient";
 
 @Module({
     imports: [DatabaseModule],
@@ -29,7 +31,8 @@ import { DeleteOrderUseCase } from "src/domain/use-cases/delete-order";
         CreateOrderController,
         CreateRecipientController,
         CreateTransporterController,
-        DeleteOrderController
+        DeleteOrderController,
+        DeleteRecipientController
     ],
     providers: [
         JwtService,
@@ -40,6 +43,7 @@ import { DeleteOrderUseCase } from "src/domain/use-cases/delete-order";
         CreateRecipientUseCase,
         CreateTransporterUseCase,
         DeleteOrderUseCase,
+        DeleteRecipientUseCase,
         {
             provide: PasswordHasher,
             useClass: Bcrypthasher
