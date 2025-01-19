@@ -8,7 +8,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
   async create(order: Order): Promise<Order> {
     const newOrder = await this.prisma.order.create({
       data: {
@@ -30,6 +30,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
       data: {
         status: PrismaOrderMapper.toPrismaStatus(order.status),
         deliveryPhoto: order.deliveryPhoto,
+        transporterId: order.transporterId
       },
     });
   }
