@@ -22,6 +22,8 @@ import { DeleteOrderController } from "./delete-order.controller";
 import { DeleteOrderUseCase } from "src/domain/use-cases/delete-order";
 import { DeleteRecipientController } from "./delete-recipient.controller";
 import { DeleteRecipientUseCase } from "src/domain/use-cases/delete-recipient";
+import { DeleteTransporterController } from "./delete-transporter.controller";
+import { DeleteTransporterUseCase } from "src/domain/use-cases/delete-transporter";
 
 @Module({
     imports: [DatabaseModule],
@@ -32,7 +34,8 @@ import { DeleteRecipientUseCase } from "src/domain/use-cases/delete-recipient";
         CreateRecipientController,
         CreateTransporterController,
         DeleteOrderController,
-        DeleteRecipientController
+        DeleteRecipientController,
+        DeleteTransporterController
     ],
     providers: [
         JwtService,
@@ -44,6 +47,7 @@ import { DeleteRecipientUseCase } from "src/domain/use-cases/delete-recipient";
         CreateTransporterUseCase,
         DeleteOrderUseCase,
         DeleteRecipientUseCase,
+        DeleteTransporterUseCase,
         {
             provide: PasswordHasher,
             useClass: Bcrypthasher
