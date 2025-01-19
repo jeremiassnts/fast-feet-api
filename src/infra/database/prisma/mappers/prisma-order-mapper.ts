@@ -56,7 +56,7 @@ export class PrismaOrderMapper {
             recipientId: data.recipientId,
             status: PrismaOrderMapper.toPrismaStatus(data.status),
             title: data.title,
-            transporterId: data.title,
+            transporterId: data.transporterId,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt,
             deletedAt: data.deletedAt

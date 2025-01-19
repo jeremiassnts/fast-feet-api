@@ -33,7 +33,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
         })
     }
     async findById(id: string): Promise<Order | null> {
-        const order = await this.prisma.order.findFirst({
+        const order = await this.prisma.order.findUnique({
             where: {
                 id
             }
