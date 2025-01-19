@@ -29,6 +29,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
             },
             data: {
                 status: PrismaOrderMapper.toPrismaStatus(order.status),
+                deliveryPhoto: order.deliveryPhoto
             }
         })
     }

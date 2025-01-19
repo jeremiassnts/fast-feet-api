@@ -25,12 +25,12 @@ export class MarkOrderAsDeliveredUseCase {
 
         const order = await this.ordersRepository.findById(orderId)
         if (!order) {
-            throw new NotFoundError(orderId)
+            throw new NotFoundError(orderId, 'order')
         }
 
         const transporter = await this.usersRepository.findById(transporterId)
         if (transporter.id !== order.transporterId) {
-            throw new NotFoundError(transporterId)
+            throw new NotFoundError(transporterId, 'transporter')
         }
 
         if (!fileName || !body || !fileType) {

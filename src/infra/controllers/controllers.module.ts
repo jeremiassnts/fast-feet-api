@@ -28,6 +28,10 @@ import { EditRecipientController } from "./edit-recipient.controller";
 import { EditRecipientUseCase } from "src/domain/use-cases/edit-recipient";
 import { EditTransporterController } from "./edit-transporter.controller";
 import { EditTransporterUseCase } from "src/domain/use-cases/edit-transporter";
+import { MarkOrderAsDeliveredUseCase } from "src/domain/use-cases/mark-order-as-delivered";
+import { MarkOrderAsDeliveredController } from "./mark-order-as-delivered.controller";
+import { PhotoUploader } from "src/domain/services/photo-uploader";
+import { R2PhotoUploader } from "../services/r2-photo-uploader";
 
 @Module({
     imports: [DatabaseModule],
@@ -41,7 +45,8 @@ import { EditTransporterUseCase } from "src/domain/use-cases/edit-transporter";
         DeleteRecipientController,
         DeleteTransporterController,
         EditRecipientController,
-        EditTransporterController
+        EditTransporterController,
+        MarkOrderAsDeliveredController
     ],
     providers: [
         JwtService,
@@ -56,6 +61,7 @@ import { EditTransporterUseCase } from "src/domain/use-cases/edit-transporter";
         DeleteTransporterUseCase,
         EditRecipientUseCase,
         EditTransporterUseCase,
+        MarkOrderAsDeliveredUseCase,
         {
             provide: PasswordHasher,
             useClass: Bcrypthasher
@@ -67,6 +73,10 @@ import { EditTransporterUseCase } from "src/domain/use-cases/edit-transporter";
         {
             provide: CpfValidator,
             useClass: CvCpfValidator
+        },
+        {
+            provide: PhotoUploader,
+            useClass: R2PhotoUploader
         }
     ],
 })
