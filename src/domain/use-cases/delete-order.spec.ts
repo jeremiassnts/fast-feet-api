@@ -16,7 +16,7 @@ describe('Delete order', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository);
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
     sut = new DeleteOrderUseCase(
       inMemoryUsersRepository,
       inMemoryOrdersRepository,

@@ -15,7 +15,7 @@ let sut: FetchTransporterDeliveriesUseCase;
 describe('Fetch deliveries by transporter', () => {
   beforeEach(() => {
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository);
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
     inMemoryUsersRepository = new InMemoryUsersRepository();
     sut = new FetchTransporterDeliveriesUseCase(inMemoryOrdersRepository);
   });

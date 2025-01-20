@@ -5,6 +5,8 @@ import { PrismaOrderMapper } from '../mappers/prisma-order-mapper';
 import { OrderStatus } from '@prisma/client';
 import { MapsUtils } from 'src/domain/utils/maps-utils';
 import { Injectable } from '@nestjs/common';
+import { PrismaOrderDetailsMapper } from '../mappers/prisma-order-details-mapper';
+import { OrderDetails } from 'src/domain/entities/value-objects/order-details';
 
 @Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
@@ -34,13 +36,17 @@ export class PrismaOrdersRepository implements OrdersRepository {
       },
     });
   }
-  async findById(id: string): Promise<Order | null> {
+  async findById(id: string): Promise<OrderDetails | null> {
     const order = await this.prisma.order.findUnique({
       where: {
         id,
       },
+      include: {
+        recipient: true,
+        transporter: true,
+      }
     });
-    return order ? PrismaOrderMapper.toDomain(order) : null;
+    return order ? PrismaOrderDetailsMapper.toDomain(order) : null;
   }
   async delete(id: string): Promise<void> {
     await this.prisma.order.update({

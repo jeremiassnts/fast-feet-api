@@ -2,17 +2,24 @@ import { Order, OrderStatus } from 'src/domain/entities/order';
 import { OrdersRepository } from 'src/domain/repositories/orders-repository';
 import { MapsUtils } from 'src/domain/utils/maps-utils';
 import { InMemoryRecipientsRepository } from './in-memory-recipients-repository';
+import { OrderDetails } from 'src/domain/entities/value-objects/order-details';
+import { InMemoryUsersRepository } from './in-memory-users-repository';
 
 export class InMemoryOrdersRepository implements OrdersRepository {
   public items: Order[] = [];
-  constructor(private recipientsRepository: InMemoryRecipientsRepository) {}
+  constructor(private recipientsRepository: InMemoryRecipientsRepository, private usersRepository: InMemoryUsersRepository) { }
   async create(order: Order): Promise<Order> {
     this.items.push(order);
     return order;
   }
-  async findById(id: string): Promise<Order | null> {
+  async findById(id: string): Promise<OrderDetails | null> {
     const order = this.items.find((item) => item.id === id);
-    return order ?? null;
+    if (!order) {
+      return null
+    }
+    const recipient = this.recipientsRepository.items.find((item) => item.id === order.recipientId);
+    const transporter = this.usersRepository.items.find((item) => item.id === order.transporterId);
+    return new OrderDetails({ order, recipient, transporter })
   }
   async update(order: Order): Promise<void> {
     const index = this.items.findIndex((o) => o.id === order.id);

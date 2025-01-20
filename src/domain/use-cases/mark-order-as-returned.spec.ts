@@ -3,15 +3,18 @@ import { InMemoryOrdersRepository } from 'test/repositories/in-memory-orders-rep
 import { OrderFactory } from 'test/factories/make-order';
 import { OrderStatus } from '../entities/order';
 import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipients-repository';
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository';
 
 let inMemoryOrdersRepository: InMemoryOrdersRepository;
 let inMemoryRecipientsRepository: InMemoryRecipientsRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let sut: MarkOrderAsReturnedUseCase;
 
 describe('Mark an order as returned', () => {
   beforeEach(() => {
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository);
+    inMemoryUsersRepository = new InMemoryUsersRepository();
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
     sut = new MarkOrderAsReturnedUseCase(inMemoryOrdersRepository);
   });
 

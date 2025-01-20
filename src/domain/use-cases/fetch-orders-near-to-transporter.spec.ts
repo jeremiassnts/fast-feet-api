@@ -15,11 +15,12 @@ let sut: FetchOrdersNearToTransporterUseCase;
 
 describe('Fetch orders near to transporter', () => {
   beforeEach(() => {
+    inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryRecipientsRepository,
+      inMemoryUsersRepository
     );
-    inMemoryUsersRepository = new InMemoryUsersRepository();
     sut = new FetchOrdersNearToTransporterUseCase(inMemoryOrdersRepository);
   });
 

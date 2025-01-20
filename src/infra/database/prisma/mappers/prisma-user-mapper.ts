@@ -3,6 +3,7 @@ import { User, UserRoles } from 'src/domain/entities/user';
 
 export class PrismaUserMapper {
   public static toDomain(data: PrismaUser): User {
+    if (!data) return null
     return new User({
       id: data.id,
       name: data.name,
@@ -15,6 +16,7 @@ export class PrismaUserMapper {
     });
   }
   public static toPrisma(data: User): PrismaUser {
+    if (!data) return null
     return {
       id: data.id,
       name: data.name,
