@@ -10,7 +10,7 @@ export abstract class OrdersRepository {
     page: number,
     top: number,
     transporterId: string,
-  ): Promise<Order[]>;
+  ): Promise<OrderDetails[]>;
   abstract fetchOrdersNearToTransporter(
     page: number,
     top: number,

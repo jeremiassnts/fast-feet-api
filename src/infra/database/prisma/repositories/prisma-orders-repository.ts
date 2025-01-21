@@ -62,16 +62,20 @@ export class PrismaOrdersRepository implements OrdersRepository {
     page: number,
     top: number,
     transporterId: string,
-  ): Promise<Order[]> {
+  ): Promise<OrderDetails[]> {
     const orders = await this.prisma.order.findMany({
       where: {
         status: OrderStatus.DELIVERED,
         transporterId: transporterId,
       },
+      include: {
+        recipient: true,
+        transporter: true
+      },
       take: top,
       skip: (page - 1) * top,
     });
-    return orders.map(PrismaOrderMapper.toDomain);
+    return orders.map(PrismaOrderDetailsMapper.toDomain);
   }
   async fetchOrdersNearToTransporter(
     page: number,

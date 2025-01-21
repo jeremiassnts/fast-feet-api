@@ -33,14 +33,19 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     page: number,
     top: number,
     transporterId: string,
-  ): Promise<Order[]> {
+  ): Promise<OrderDetails[]> {
+    const transporter = this.usersRepository.items.find((item) => item.id === transporterId);
     const deliveries = this.items
       .filter(
         (order) =>
           order.status === OrderStatus.DELIVERED &&
           order.transporterId === transporterId,
       )
-      .slice((page - 1) * top, page * top);
+      .slice((page - 1) * top, page * top)
+      .map((order) => {
+        const recipient = this.recipientsRepository.items.find((item) => item.id === order.recipientId);
+        return new OrderDetails({ order, recipient, transporter })
+      });
     return deliveries;
   }
   async fetchOrdersNearToTransporter(
