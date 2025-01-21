@@ -83,7 +83,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
     transporterId: string,
     longitude: number,
     latitude: number,
-  ): Promise<Order[]> {
+  ): Promise<OrderDetails[]> {
     const orders = await this.prisma.order.findMany({
       where: {
         AND: [
@@ -93,21 +93,15 @@ export class PrismaOrdersRepository implements OrdersRepository {
           },
         ],
       },
-    });
-    const recipients = await this.prisma.recipient.findMany({
-      where: {
-        id: {
-          in: orders.map((order) => order.recipientId),
-        },
-      },
+      include: {
+        recipient: true,
+        transporter: true,
+      }
     });
     return orders
       .sort((a, b) => {
-        const recipient_A = recipients.find(
-          (recipient) => recipient.id === a.recipientId,
-        );
-        const latitudeA = recipient_A.latitude;
-        const longitudeA = recipient_A.longitude;
+        const latitudeA = a.recipient.latitude;
+        const longitudeA = a.recipient.longitude;
         const distanceA = MapsUtils.getDifferenceBetweenCoordinates(
           {
             latitude: latitudeA,
@@ -119,11 +113,8 @@ export class PrismaOrdersRepository implements OrdersRepository {
           },
         );
 
-        const recipient_B = recipients.find(
-          (recipient) => recipient.id === b.recipientId,
-        );
-        const latitudeB = recipient_B.latitude;
-        const longitudeB = recipient_B.longitude;
+        const latitudeB = b.recipient.latitude;
+        const longitudeB = b.recipient.longitude;
         const distanceB = MapsUtils.getDifferenceBetweenCoordinates(
           {
             latitude: latitudeB,
@@ -138,6 +129,6 @@ export class PrismaOrdersRepository implements OrdersRepository {
         return distanceA - distanceB;
       })
       .slice((page - 1) * top, page * top)
-      .map(PrismaOrderMapper.toDomain);
+      .map(PrismaOrderDetailsMapper.toDomain);
   }
 }

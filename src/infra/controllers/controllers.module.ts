@@ -38,6 +38,18 @@ import { MarkOrderAsReturnedController } from './mark-order-as-returned.controll
 import { MarkOrderAsReturnedUseCase } from 'src/domain/use-cases/mark-order-as-returned';
 import { MarkOrderAsWaitingUseCase } from 'src/domain/use-cases/mark-order-as-waiting';
 import { MarkOrderAsWaitingController } from './mark-order-as-waiting.controller';
+import { FetchOrdersNearToTransporterController } from './fetch-orders-near-to-transporter.controller';
+import { FetchRecipientsController } from './fetch-recipients.controller';
+import { FetchTransportersController } from './fetch-transporters.controller';
+import { GetOrderByIdController } from './get-order-by-id.controller';
+import { GetTransporterByIdController } from './get-transporter-by-id.controller';
+import { FetchOrdersNearToTransporterUseCase } from 'src/domain/use-cases/fetch-orders-near-to-transporter';
+import { FetchRecipientUseCase } from 'src/domain/use-cases/fetch-recipients';
+import { FetchTransporterDeliveriesUseCase } from 'src/domain/use-cases/fetch-transporter-deliveries';
+import { FetchTransporterDeliveriesController } from './fetch-transporter-deliveries.controller';
+import { FetchTransporterUseCase } from 'src/domain/use-cases/fetch-transporters';
+import { GetOrderUseCase } from 'src/domain/use-cases/get-order-by-id';
+import { GetTransporterUseCase } from 'src/domain/use-cases/get-transporter-by-id';
 
 @Module({
   imports: [DatabaseModule],
@@ -55,7 +67,13 @@ import { MarkOrderAsWaitingController } from './mark-order-as-waiting.controller
     MarkOrderAsDeliveredController,
     MarkOrderAsPickedUpController,
     MarkOrderAsReturnedController,
-    MarkOrderAsWaitingController
+    MarkOrderAsWaitingController,
+    FetchOrdersNearToTransporterController,
+    FetchRecipientsController,
+    FetchTransportersController,
+    GetOrderByIdController,
+    GetTransporterByIdController,
+    FetchTransporterDeliveriesController
   ],
   providers: [
     JwtService,
@@ -74,6 +92,12 @@ import { MarkOrderAsWaitingController } from './mark-order-as-waiting.controller
     MarkOrderAsPickedUpUseCase,
     MarkOrderAsReturnedUseCase,
     MarkOrderAsWaitingUseCase,
+    FetchOrdersNearToTransporterUseCase,
+    FetchRecipientUseCase,
+    FetchTransporterDeliveriesUseCase,
+    FetchTransporterUseCase,
+    GetOrderUseCase,
+    GetTransporterUseCase,
     {
       provide: PasswordHasher,
       useClass: Bcrypthasher,

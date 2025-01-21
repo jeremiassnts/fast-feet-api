@@ -17,5 +17,5 @@ export abstract class OrdersRepository {
     transporterId: string,
     longitude: number,
     latitude: number,
-  ): Promise<Order[]>;
+  ): Promise<OrderDetails[]>;
 }
