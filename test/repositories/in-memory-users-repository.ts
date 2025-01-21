@@ -1,4 +1,4 @@
-import { User } from 'src/domain/entities/user';
+import { User, UserRoles } from 'src/domain/entities/user';
 import { UsersRepository } from 'src/domain/repositories/users-repository';
 
 export class InMemoryUsersRepository implements UsersRepository {
@@ -24,8 +24,8 @@ export class InMemoryUsersRepository implements UsersRepository {
     const index = this.items.findIndex((u) => userId === u.id);
     this.items[index].deletedAt = new Date();
   }
-  async fetchActive(page: number, top: number): Promise<User[]> {
-    const transporters = this.items.filter((user) => !user.deletedAt);
+  async fetchActiveTransporters(page: number, top: number): Promise<User[]> {
+    const transporters = this.items.filter((user) => !user.deletedAt && user.role == UserRoles.TRANSPORTER);
     return transporters.slice((page - 1) * top, page * top);
   }
 }
