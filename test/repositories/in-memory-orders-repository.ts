@@ -54,7 +54,8 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     transporterId: string,
     longitude: number,
     latitude: number,
-  ): Promise<Order[]> {
+  ): Promise<OrderDetails[]> {
+    const transporter = this.usersRepository.items.find((item) => item.id === transporterId);
     const orders = this.items
       .filter(
         (order) =>
@@ -96,7 +97,17 @@ export class InMemoryOrdersRepository implements OrdersRepository {
 
         return distanceA - distanceB;
       })
-      .slice((page - 1) * top, page * top);
+      .slice((page - 1) * top, page * top)
+      .map(order => {
+        const recipient = this.recipientsRepository.items.find(
+          (item) => item.id === order.recipientId,
+        );
+        return new OrderDetails({
+          order,
+          recipient,
+          transporter
+        })
+      })
 
     return orders;
   }

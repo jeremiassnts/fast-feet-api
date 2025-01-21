@@ -14,10 +14,10 @@ export class MarkOrderAsWaitingUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private ordersRepository: OrdersRepository,
-  ) {}
+  ) { }
   async execute({ adminId, orderId }: MarkOrderAsWaitingUseCaseRequest) {
-    const order = await this.ordersRepository.findById(orderId);
-    if (!order) {
+    const orderDetails = await this.ordersRepository.findById(orderId);
+    if (!orderDetails) {
       throw new NotFoundError(orderId, 'order');
     }
 
@@ -26,6 +26,7 @@ export class MarkOrderAsWaitingUseCase {
       throw new NotFoundError(adminId, 'user');
     }
 
+    const { order } = orderDetails
     order.status = OrderStatus.WAITING;
 
     await this.ordersRepository.update(order);
