@@ -15,8 +15,8 @@ let sut: FetchTransporterDeliveriesUseCase;
 describe('Fetch deliveries by transporter', () => {
   beforeEach(() => {
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
     inMemoryUsersRepository = new InMemoryUsersRepository();
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
     sut = new FetchTransporterDeliveriesUseCase(inMemoryOrdersRepository);
   });
 
@@ -57,10 +57,14 @@ describe('Fetch deliveries by transporter', () => {
     expect(result.deliveries).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: order1.id,
+          order: expect.objectContaining({
+            id: order1.id,
+          })
         }),
         expect.objectContaining({
-          id: order2.id,
+          order: expect.objectContaining({
+            id: order2.id,
+          })
         }),
       ]),
     );

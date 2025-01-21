@@ -73,10 +73,14 @@ describe('Fetch orders near to transporter', () => {
     expect(result.orders).toHaveLength(2);
     expect(result.orders).toEqual([
       expect.objectContaining({
-        id: order2.id,
+        order: expect.objectContaining({
+          id: order2.id,
+        }),
       }),
       expect.objectContaining({
-        id: order1.id,
+        order: expect.objectContaining({
+          id: order1.id,
+        }),
       }),
     ]);
   });
