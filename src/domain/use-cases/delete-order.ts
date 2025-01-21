@@ -13,10 +13,10 @@ export class DeleteOrderUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private ordersRepository: OrdersRepository,
-  ) {}
+  ) { }
   async execute({ adminId, orderId }: DeleteOrderUseCaseRequest) {
-    const order = await this.ordersRepository.findById(orderId);
-    if (!order) {
+    const orderDetails = await this.ordersRepository.findById(orderId);
+    if (!orderDetails) {
       throw new NotFoundError(orderId, 'order');
     }
 
@@ -25,6 +25,6 @@ export class DeleteOrderUseCase {
       throw new NotFoundError(adminId, 'user');
     }
 
-    await this.ordersRepository.delete(order.id);
+    await this.ordersRepository.delete(orderDetails.order.id);
   }
 }
