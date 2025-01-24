@@ -9,6 +9,8 @@ import { JwtService } from '@nestjs/jwt';
 import { UserRoles } from 'src/domain/entities/user';
 import { OrderFactory } from 'test/factories/make-order';
 import { RecipientFactory } from 'test/factories/make-recipient';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { vi } from 'vitest'
 
 describe('Mark order as delivered (E2E)', () => {
   let app: INestApplication;
@@ -22,7 +24,14 @@ describe('Mark order as delivered (E2E)', () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
       providers: [UserFactory, OrderFactory, RecipientFactory],
-    }).compile();
+    })
+      .overrideProvider(EventEmitter2)
+      .useValue({
+        emit: vi.fn(),
+        on: vi.fn(),
+        off: vi.fn(),
+      })
+      .compile();
     app = moduleRef.createNestApplication();
     orderFactory = moduleRef.get(OrderFactory);
     userFactory = moduleRef.get(UserFactory);

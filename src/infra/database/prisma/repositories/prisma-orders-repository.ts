@@ -7,10 +7,12 @@ import { MapsUtils } from 'src/domain/utils/maps-utils';
 import { Injectable } from '@nestjs/common';
 import { PrismaOrderDetailsMapper } from '../mappers/prisma-order-details-mapper';
 import { OrderDetails } from 'src/domain/entities/value-objects/order-details';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { OrderStatusChanged } from 'src/domain/events/on-order-status-changed';
 
 @Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService, private eventEmitter: EventEmitter2) { }
   async create(order: Order): Promise<Order> {
     const newOrder = await this.prisma.order.create({
       data: {
@@ -25,6 +27,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
     return PrismaOrderMapper.toDomain(newOrder);
   }
   async update(order: Order): Promise<void> {
+    const hasChangedStatus = PrismaOrderMapper.toPrismaStatus(order.status) !== (await this.prisma.order.findFirst({ where: { id: order.id } })).status
     await this.prisma.order.update({
       where: {
         id: order.id,
@@ -35,6 +38,12 @@ export class PrismaOrdersRepository implements OrdersRepository {
         transporterId: order.transporterId
       },
     });
+    if (hasChangedStatus) {
+      this.eventEmitter.emit('order.changed', {
+        orderId: order.id,
+        status: order.status
+      } as OrderStatusChanged)
+    }
   }
   async findById(id: string): Promise<OrderDetails | null> {
     const order = await this.prisma.order.findUnique({

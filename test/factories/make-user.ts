@@ -7,7 +7,7 @@ import { PrismaService } from 'src/infra/database/prisma/prisma.service';
 
 @Injectable()
 export class UserFactory {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
   static makeUser(override: Partial<UserProps> = {}) {
     const user = new User({
       name: faker.person.fullName(),
@@ -15,7 +15,6 @@ export class UserFactory {
       password: faker.internet.password(),
       role: UserRoles.ADMIN,
       createdAt: faker.date.past(),
-      createdBy: randomUUID(),
       updatedAt: null,
       ...override,
     });

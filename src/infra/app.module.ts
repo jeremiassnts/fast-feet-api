@@ -5,6 +5,8 @@ import { EnvModule } from './env/env.module';
 import { EnvService } from './env/env.service';
 import { ControllersModule } from './controllers/controllers.module';
 import { AuthModule } from './auth/auth.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -12,10 +14,12 @@ import { AuthModule } from './auth/auth.module';
       validate: (env) => envSchema.parse(env),
       isGlobal: true,
     }),
+    EventEmitterModule.forRoot(),
     EnvModule,
     ControllersModule,
     AuthModule,
+    EventsModule
   ],
   providers: [EnvService],
 })
-export class AppModule {}
+export class AppModule { }
