@@ -9,14 +9,17 @@ import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipi
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryOrdersRepository: InMemoryOrdersRepository;
-let inMemoryRecipientsRepository: InMemoryRecipientsRepository
+let inMemoryRecipientsRepository: InMemoryRecipientsRepository;
 let sut: DeleteOrderUseCase;
 
 describe('Delete order', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryRecipientsRepository,
+      inMemoryUsersRepository,
+    );
     sut = new DeleteOrderUseCase(
       inMemoryUsersRepository,
       inMemoryOrdersRepository,

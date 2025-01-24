@@ -9,7 +9,7 @@ interface DeleteTransporterUseCaseRequest {
 
 @Injectable()
 export class DeleteTransporterUseCase {
-  constructor(private usersRepository: UsersRepository) { }
+  constructor(private usersRepository: UsersRepository) {}
   async execute({ adminId, transporterId }: DeleteTransporterUseCaseRequest) {
     const transporter = await this.usersRepository.findById(transporterId);
     if (!transporter) {

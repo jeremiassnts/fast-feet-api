@@ -26,13 +26,13 @@ import { MailerModule } from '@nestjs-modules/mailer';
           pass: process.env.SENDING_EMAIL_PASSWORD,
         },
         ignoreTLS: true,
-      }
+      },
     }),
     EnvModule,
     ControllersModule,
     AuthModule,
-    EventsModule
+    EventsModule,
   ],
   providers: [EnvService],
 })
-export class AppModule { }
+export class AppModule {}

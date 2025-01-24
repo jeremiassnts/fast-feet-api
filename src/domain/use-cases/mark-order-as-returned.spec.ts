@@ -14,7 +14,10 @@ describe('Mark an order as returned', () => {
   beforeEach(() => {
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
     inMemoryUsersRepository = new InMemoryUsersRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryRecipientsRepository,
+      inMemoryUsersRepository,
+    );
     sut = new MarkOrderAsReturnedUseCase(inMemoryOrdersRepository);
   });
 

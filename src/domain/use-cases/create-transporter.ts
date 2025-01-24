@@ -20,7 +20,7 @@ export class CreateTransporterUseCase {
     private usersRepository: UsersRepository,
     private passwordHasher: PasswordHasher,
     private cpfValidator: CpfValidator,
-  ) { }
+  ) {}
   async execute({
     cpf,
     password,

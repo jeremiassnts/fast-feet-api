@@ -21,7 +21,7 @@ export class MarkOrderAsDeliveredUseCase {
     private usersRepository: UsersRepository,
     private ordersRepository: OrdersRepository,
     private photoUploader: PhotoUploader,
-  ) { }
+  ) {}
   async execute({
     transporterId,
     orderId,
@@ -38,7 +38,7 @@ export class MarkOrderAsDeliveredUseCase {
       throw new NotFoundError(orderId, 'order');
     }
 
-    const { order } = orderDetails
+    const { order } = orderDetails;
     const transporter = await this.usersRepository.findById(transporterId);
     if (transporter.id !== order.transporterId) {
       throw new NotFoundError(transporterId, 'transporter');

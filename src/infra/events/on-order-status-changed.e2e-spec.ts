@@ -9,49 +9,49 @@ import { RecipientFactory } from 'test/factories/make-recipient';
 import { OrderStatus } from 'src/domain/entities/order';
 import { PrismaOrdersRepository } from '../database/prisma/repositories/prisma-orders-repository';
 import { OrdersRepository } from 'src/domain/repositories/orders-repository';
-import { MockInstance, vi } from 'vitest'
+import { MockInstance, vi } from 'vitest';
 import { OnOrderStatusChanged } from 'src/domain/events/on-order-status-changed';
 
 describe('On order status changed event (E2E)', () => {
-    let app: INestApplication;
-    let orderFactory: OrderFactory
-    let recipientFactory: RecipientFactory
-    let orderRepository: PrismaOrdersRepository
-    let spy: MockInstance
-    let subscriber: OnOrderStatusChanged
+  let app: INestApplication;
+  let orderFactory: OrderFactory;
+  let recipientFactory: RecipientFactory;
+  let orderRepository: PrismaOrdersRepository;
+  let spy: MockInstance;
+  let subscriber: OnOrderStatusChanged;
 
-    beforeAll(async () => {
-        const moduleRef = await Test.createTestingModule({
-            imports: [AppModule, DatabaseModule],
-            providers: [OrderFactory, RecipientFactory],
-        })
-            .overrideProvider(NotificationSender)
-            .useClass(FakeMailer)
-            .compile();
-        app = moduleRef.createNestApplication();
-        orderRepository = moduleRef.get(OrdersRepository)
-        orderFactory = moduleRef.get(OrderFactory)
-        recipientFactory = moduleRef.get(RecipientFactory)
-        subscriber = moduleRef.get(OnOrderStatusChanged)
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule, DatabaseModule],
+      providers: [OrderFactory, RecipientFactory],
+    })
+      .overrideProvider(NotificationSender)
+      .useClass(FakeMailer)
+      .compile();
+    app = moduleRef.createNestApplication();
+    orderRepository = moduleRef.get(OrdersRepository);
+    orderFactory = moduleRef.get(OrderFactory);
+    recipientFactory = moduleRef.get(RecipientFactory);
+    subscriber = moduleRef.get(OnOrderStatusChanged);
 
-        await app.init();
+    await app.init();
+  });
+
+  test('UPDATE order', async () => {
+    spy = vi.spyOn(subscriber, 'handle');
+
+    const recipient = await recipientFactory.makePrismaRecipient();
+    const order = await orderFactory.makePrismaOrder({
+      recipientId: recipient.id,
+      status: OrderStatus.CREATED,
     });
 
-    test('UPDATE order', async () => {
-        spy = vi.spyOn(subscriber, 'handle')
+    order.status = OrderStatus.DELIVERED;
+    await orderRepository.update(order);
 
-        const recipient = await recipientFactory.makePrismaRecipient()
-        const order = await orderFactory.makePrismaOrder({
-            recipientId: recipient.id,
-            status: OrderStatus.CREATED
-        })
-
-        order.status = OrderStatus.DELIVERED
-        await orderRepository.update(order)
-
-        expect(spy).toHaveBeenCalledWith({
-            orderId: order.id,
-            status: OrderStatus.DELIVERED
-        })
+    expect(spy).toHaveBeenCalledWith({
+      orderId: order.id,
+      status: OrderStatus.DELIVERED,
     });
+  });
 });

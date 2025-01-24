@@ -13,7 +13,7 @@ export class DeleteOrderUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private ordersRepository: OrdersRepository,
-  ) { }
+  ) {}
   async execute({ adminId, orderId }: DeleteOrderUseCaseRequest) {
     const orderDetails = await this.ordersRepository.findById(orderId);
     if (!orderDetails) {

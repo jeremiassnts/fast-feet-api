@@ -12,11 +12,11 @@ import { MarkOrderAsPickedUpUseCase } from 'src/domain/use-cases/mark-order-as-p
 
 @Controller('/order/:id/pickedup')
 export class MarkOrderAsPickedUpController {
-  constructor(private markOrderAsPickedUp: MarkOrderAsPickedUpUseCase) { }
+  constructor(private markOrderAsPickedUp: MarkOrderAsPickedUpUseCase) {}
   @Put()
   async handler(
     @Param('id') orderId: string,
-    @CurrentUser() user: UserPayload
+    @CurrentUser() user: UserPayload,
   ) {
     try {
       await this.markOrderAsPickedUp.execute({

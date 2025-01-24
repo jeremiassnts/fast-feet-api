@@ -9,14 +9,14 @@ interface MarkOrderAsReturnedUseCaseRequest {
 
 @Injectable()
 export class MarkOrderAsReturnedUseCase {
-  constructor(private ordersRepository: OrdersRepository) { }
+  constructor(private ordersRepository: OrdersRepository) {}
   async execute({ orderId }: MarkOrderAsReturnedUseCaseRequest) {
     const orderDetails = await this.ordersRepository.findById(orderId);
     if (!orderDetails) {
       throw new NotFoundError(orderId, 'order');
     }
 
-    const { order } = orderDetails
+    const { order } = orderDetails;
     order.status = OrderStatus.RETURNED;
 
     await this.ordersRepository.update(order);

@@ -25,7 +25,9 @@ export class InMemoryUsersRepository implements UsersRepository {
     this.items[index].deletedAt = new Date();
   }
   async fetchActiveTransporters(page: number, top: number): Promise<User[]> {
-    const transporters = this.items.filter((user) => !user.deletedAt && user.role == UserRoles.TRANSPORTER);
+    const transporters = this.items.filter(
+      (user) => !user.deletedAt && user.role == UserRoles.TRANSPORTER,
+    );
     return transporters.slice((page - 1) * top, page * top);
   }
 }

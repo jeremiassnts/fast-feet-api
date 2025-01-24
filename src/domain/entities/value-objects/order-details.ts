@@ -3,9 +3,9 @@ import { User } from '../user';
 import { Recipient } from '../recipient';
 
 export interface OrderDetailsProps {
-  order: Order
-  transporter: User
-  recipient: Recipient
+  order: Order;
+  transporter: User;
+  recipient: Recipient;
 }
 
 export class OrderDetails {
@@ -22,11 +22,7 @@ export class OrderDetails {
   get recipient() {
     return this._recipient;
   }
-  constructor({
-    order,
-    recipient,
-    transporter
-  }: OrderDetailsProps) {
+  constructor({ order, recipient, transporter }: OrderDetailsProps) {
     this._order = order;
     this._recipient = recipient;
     this._transporter = transporter;

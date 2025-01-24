@@ -12,7 +12,10 @@ import { OrderStatusChanged } from 'src/domain/events/on-order-status-changed';
 
 @Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
-  constructor(private prisma: PrismaService, private eventEmitter: EventEmitter2) { }
+  constructor(
+    private prisma: PrismaService,
+    private eventEmitter: EventEmitter2,
+  ) {}
   async create(order: Order): Promise<Order> {
     const newOrder = await this.prisma.order.create({
       data: {
@@ -27,7 +30,9 @@ export class PrismaOrdersRepository implements OrdersRepository {
     return PrismaOrderMapper.toDomain(newOrder);
   }
   async update(order: Order): Promise<void> {
-    const hasChangedStatus = PrismaOrderMapper.toPrismaStatus(order.status) !== (await this.prisma.order.findFirst({ where: { id: order.id } })).status
+    const hasChangedStatus =
+      PrismaOrderMapper.toPrismaStatus(order.status) !==
+      (await this.prisma.order.findFirst({ where: { id: order.id } })).status;
     await this.prisma.order.update({
       where: {
         id: order.id,
@@ -35,14 +40,14 @@ export class PrismaOrdersRepository implements OrdersRepository {
       data: {
         status: PrismaOrderMapper.toPrismaStatus(order.status),
         deliveryPhoto: order.deliveryPhoto,
-        transporterId: order.transporterId
+        transporterId: order.transporterId,
       },
     });
     if (hasChangedStatus) {
       this.eventEmitter.emit('order.changed', {
         orderId: order.id,
-        status: order.status
-      } as OrderStatusChanged)
+        status: order.status,
+      } as OrderStatusChanged);
     }
   }
   async findById(id: string): Promise<OrderDetails | null> {
@@ -53,7 +58,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
       include: {
         recipient: true,
         transporter: true,
-      }
+      },
     });
     return order ? PrismaOrderDetailsMapper.toDomain(order) : null;
   }
@@ -79,7 +84,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
       },
       include: {
         recipient: true,
-        transporter: true
+        transporter: true,
       },
       take: top,
       skip: (page - 1) * top,
@@ -105,7 +110,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
       include: {
         recipient: true,
         transporter: true,
-      }
+      },
     });
     return orders
       .sort((a, b) => {

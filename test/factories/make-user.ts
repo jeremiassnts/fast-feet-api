@@ -1,13 +1,12 @@
 import { User, UserProps, UserRoles } from 'src/domain/entities/user';
 import { faker } from '@faker-js/faker';
-import { randomUUID } from 'node:crypto';
 import { PrismaUserMapper } from 'src/infra/database/prisma/mappers/prisma-user-mapper';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infra/database/prisma/prisma.service';
 
 @Injectable()
 export class UserFactory {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
   static makeUser(override: Partial<UserProps> = {}) {
     const user = new User({
       name: faker.person.fullName(),

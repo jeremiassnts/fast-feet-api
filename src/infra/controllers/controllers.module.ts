@@ -73,7 +73,7 @@ import { GetTransporterUseCase } from 'src/domain/use-cases/get-transporter-by-i
     FetchTransportersController,
     GetOrderByIdController,
     GetTransporterByIdController,
-    FetchTransporterDeliveriesController
+    FetchTransporterDeliveriesController,
   ],
   providers: [
     JwtService,
@@ -116,4 +116,4 @@ import { GetTransporterUseCase } from 'src/domain/use-cases/get-transporter-by-i
     },
   ],
 })
-export class ControllersModule { }
+export class ControllersModule {}

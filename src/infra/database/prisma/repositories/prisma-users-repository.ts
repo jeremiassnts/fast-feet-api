@@ -6,7 +6,7 @@ import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
 
 @Injectable()
 export class PrismaUsersRepository implements UsersRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
   async findByCpf(cpf: string): Promise<User | null> {
     const user = await this.prisma.user.findFirst({
       where: {
@@ -65,7 +65,7 @@ export class PrismaUsersRepository implements UsersRepository {
     const users = await this.prisma.user.findMany({
       where: {
         deletedAt: null,
-        role: 'TRANSPORTER'
+        role: 'TRANSPORTER',
       },
       take: top,
       skip: (page - 1) * top,

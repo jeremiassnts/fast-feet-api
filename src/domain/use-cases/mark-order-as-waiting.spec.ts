@@ -17,7 +17,10 @@ describe('Mark an order as waiting', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryRecipientsRepository,
+      inMemoryUsersRepository,
+    );
     sut = new MarkOrderAsWaitingUseCase(
       inMemoryUsersRepository,
       inMemoryOrdersRepository,

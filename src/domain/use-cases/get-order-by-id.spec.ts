@@ -13,7 +13,10 @@ describe('Get order by id', () => {
   beforeEach(() => {
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
     inMemoryUsersRepository = new InMemoryUsersRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryRecipientsRepository,
+      inMemoryUsersRepository,
+    );
     sut = new GetOrderUseCase(inMemoryOrdersRepository);
   });
 
@@ -23,10 +26,12 @@ describe('Get order by id', () => {
 
     const result = await sut.execute({ id: order.id });
 
-    expect(result.order).toEqual(expect.objectContaining({
-      order: expect.objectContaining({
-        id: order.id,
-      })
-    }));
+    expect(result.order).toEqual(
+      expect.objectContaining({
+        order: expect.objectContaining({
+          id: order.id,
+        }),
+      }),
+    );
   });
 });

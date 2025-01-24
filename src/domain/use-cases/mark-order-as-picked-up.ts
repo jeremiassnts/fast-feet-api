@@ -14,7 +14,7 @@ export class MarkOrderAsPickedUpUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private ordersRepository: OrdersRepository,
-  ) { }
+  ) {}
   async execute({ transporterId, orderId }: MarkOrderAsPickedUpUseCaseRequest) {
     const orderDetails = await this.ordersRepository.findById(orderId);
     if (!orderDetails) {
@@ -26,7 +26,7 @@ export class MarkOrderAsPickedUpUseCase {
       throw new NotFoundError(transporterId, 'transporter');
     }
 
-    const { order } = orderDetails
+    const { order } = orderDetails;
     order.status = OrderStatus.PICKEDUP;
     order.transporterId = transporterId;
 

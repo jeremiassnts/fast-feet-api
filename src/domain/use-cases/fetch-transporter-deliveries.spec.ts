@@ -16,7 +16,10 @@ describe('Fetch deliveries by transporter', () => {
   beforeEach(() => {
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
     inMemoryUsersRepository = new InMemoryUsersRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryRecipientsRepository,
+      inMemoryUsersRepository,
+    );
     sut = new FetchTransporterDeliveriesUseCase(inMemoryOrdersRepository);
   });
 
@@ -59,12 +62,12 @@ describe('Fetch deliveries by transporter', () => {
         expect.objectContaining({
           order: expect.objectContaining({
             id: order1.id,
-          })
+          }),
         }),
         expect.objectContaining({
           order: expect.objectContaining({
             id: order2.id,
-          })
+          }),
         }),
       ]),
     );

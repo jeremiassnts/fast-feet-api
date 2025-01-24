@@ -19,7 +19,7 @@ describe('Fetch orders near to transporter', () => {
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryRecipientsRepository,
-      inMemoryUsersRepository
+      inMemoryUsersRepository,
     );
     sut = new FetchOrdersNearToTransporterUseCase(inMemoryOrdersRepository);
   });

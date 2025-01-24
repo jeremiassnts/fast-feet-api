@@ -8,9 +8,12 @@ interface FetchTransporterUseCaseRequest {
 
 @Injectable()
 export class FetchTransporterUseCase {
-  constructor(private usersRepository: UsersRepository) { }
+  constructor(private usersRepository: UsersRepository) {}
   async execute({ page, top }: FetchTransporterUseCaseRequest) {
-    const transporters = await this.usersRepository.fetchActiveTransporters(page, top);
+    const transporters = await this.usersRepository.fetchActiveTransporters(
+      page,
+      top,
+    );
     return { transporters };
   }
 }

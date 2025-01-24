@@ -10,7 +10,7 @@ import { UserRoles } from 'src/domain/entities/user';
 import { OrderFactory } from 'test/factories/make-order';
 import { RecipientFactory } from 'test/factories/make-recipient';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { vi } from 'vitest'
+import { vi } from 'vitest';
 
 describe('Mark order as delivered (E2E)', () => {
   let app: INestApplication;

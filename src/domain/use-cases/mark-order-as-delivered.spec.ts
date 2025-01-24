@@ -19,7 +19,10 @@ describe('Mark an order as delivered', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
-    inMemoryOrdersRepository = new InMemoryOrdersRepository(inMemoryRecipientsRepository, inMemoryUsersRepository);
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryRecipientsRepository,
+      inMemoryUsersRepository,
+    );
     fakePhotoUploader = new FakePhotoUploader();
     sut = new MarkOrderAsDeliveredUseCase(
       inMemoryUsersRepository,

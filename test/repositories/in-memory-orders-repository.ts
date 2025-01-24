@@ -7,7 +7,10 @@ import { InMemoryUsersRepository } from './in-memory-users-repository';
 
 export class InMemoryOrdersRepository implements OrdersRepository {
   public items: Order[] = [];
-  constructor(private recipientsRepository: InMemoryRecipientsRepository, private usersRepository: InMemoryUsersRepository) { }
+  constructor(
+    private recipientsRepository: InMemoryRecipientsRepository,
+    private usersRepository: InMemoryUsersRepository,
+  ) {}
   async create(order: Order): Promise<Order> {
     this.items.push(order);
     return order;
@@ -15,11 +18,15 @@ export class InMemoryOrdersRepository implements OrdersRepository {
   async findById(id: string): Promise<OrderDetails | null> {
     const order = this.items.find((item) => item.id === id);
     if (!order) {
-      return null
+      return null;
     }
-    const recipient = this.recipientsRepository.items.find((item) => item.id === order.recipientId);
-    const transporter = this.usersRepository.items.find((item) => item.id === order.transporterId);
-    return new OrderDetails({ order, recipient, transporter })
+    const recipient = this.recipientsRepository.items.find(
+      (item) => item.id === order.recipientId,
+    );
+    const transporter = this.usersRepository.items.find(
+      (item) => item.id === order.transporterId,
+    );
+    return new OrderDetails({ order, recipient, transporter });
   }
   async update(order: Order): Promise<void> {
     const index = this.items.findIndex((o) => o.id === order.id);
@@ -34,7 +41,9 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     top: number,
     transporterId: string,
   ): Promise<OrderDetails[]> {
-    const transporter = this.usersRepository.items.find((item) => item.id === transporterId);
+    const transporter = this.usersRepository.items.find(
+      (item) => item.id === transporterId,
+    );
     const deliveries = this.items
       .filter(
         (order) =>
@@ -43,8 +52,10 @@ export class InMemoryOrdersRepository implements OrdersRepository {
       )
       .slice((page - 1) * top, page * top)
       .map((order) => {
-        const recipient = this.recipientsRepository.items.find((item) => item.id === order.recipientId);
-        return new OrderDetails({ order, recipient, transporter })
+        const recipient = this.recipientsRepository.items.find(
+          (item) => item.id === order.recipientId,
+        );
+        return new OrderDetails({ order, recipient, transporter });
       });
     return deliveries;
   }
@@ -55,7 +66,9 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     longitude: number,
     latitude: number,
   ): Promise<OrderDetails[]> {
-    const transporter = this.usersRepository.items.find((item) => item.id === transporterId);
+    const transporter = this.usersRepository.items.find(
+      (item) => item.id === transporterId,
+    );
     const orders = this.items
       .filter(
         (order) =>
@@ -98,16 +111,16 @@ export class InMemoryOrdersRepository implements OrdersRepository {
         return distanceA - distanceB;
       })
       .slice((page - 1) * top, page * top)
-      .map(order => {
+      .map((order) => {
         const recipient = this.recipientsRepository.items.find(
           (item) => item.id === order.recipientId,
         );
         return new OrderDetails({
           order,
           recipient,
-          transporter
-        })
-      })
+          transporter,
+        });
+      });
 
     return orders;
   }

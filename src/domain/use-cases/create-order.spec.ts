@@ -18,7 +18,7 @@ describe('Create order', () => {
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository();
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryRecipientsRepository,
-      inMemoryUsersRepository
+      inMemoryUsersRepository,
     );
     sut = new CreateOrderUseCase(
       inMemoryUsersRepository,
