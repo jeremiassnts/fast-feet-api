@@ -7,6 +7,7 @@ import { ControllersModule } from './controllers/controllers.module';
 import { AuthModule } from './auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EventsModule } from './events/events.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -15,6 +16,18 @@ import { EventsModule } from './events/events.module';
       isGlobal: true,
     }),
     EventEmitterModule.forRoot(),
+    MailerModule.forRoot({
+      transport: {
+        host: process.env.SENDING_EMAIL_HOST,
+        secure: false,
+        port: parseInt(process.env.SENDING_EMAIL_PORT),
+        auth: {
+          user: process.env.SENDING_EMAIL_USERNAME,
+          pass: process.env.SENDING_EMAIL_PASSWORD,
+        },
+        ignoreTLS: true,
+      }
+    }),
     EnvModule,
     ControllersModule,
     AuthModule,
