@@ -37,7 +37,6 @@ describe('Get transporter by id (E2E)', () => {
     const response = await request(app.getHttpServer())
       .get('/transporter/' + transporter.id)
       .set('Authorization', `Bearer ${accessToken}`);
-    console.log(response.body);
 
     expect(response.body.transporter).toEqual(
       expect.objectContaining({

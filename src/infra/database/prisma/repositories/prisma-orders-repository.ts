@@ -9,13 +9,15 @@ import { PrismaOrderDetailsMapper } from '../mappers/prisma-order-details-mapper
 import { OrderDetails } from 'src/domain/entities/value-objects/order-details';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { OrderStatusChanged } from 'src/domain/events/on-order-status-changed';
+import { CacheRepository } from 'src/infra/cache/cache-repository';
 
 @Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
   constructor(
     private prisma: PrismaService,
     private eventEmitter: EventEmitter2,
-  ) {}
+    private cacheRepository: CacheRepository
+  ) { }
   async create(order: Order): Promise<Order> {
     const newOrder = await this.prisma.order.create({
       data: {
@@ -43,6 +45,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
         transporterId: order.transporterId,
       },
     });
+    await this.cacheRepository.delete(`order:${order.id}`)
     if (hasChangedStatus) {
       this.eventEmitter.emit('order.changed', {
         orderId: order.id,
@@ -51,6 +54,11 @@ export class PrismaOrdersRepository implements OrdersRepository {
     }
   }
   async findById(id: string): Promise<OrderDetails | null> {
+    const cached = await this.cacheRepository.get(`order:${id}`)
+    if (cached) {
+      const order = JSON.parse(cached)
+      return PrismaOrderDetailsMapper.toDomain(order)
+    }
     const order = await this.prisma.order.findUnique({
       where: {
         id,
@@ -60,6 +68,8 @@ export class PrismaOrdersRepository implements OrdersRepository {
         transporter: true,
       },
     });
+
+    await this.cacheRepository.set(`order:${id}`, JSON.stringify(order))
     return order ? PrismaOrderDetailsMapper.toDomain(order) : null;
   }
   async delete(id: string): Promise<void> {
@@ -71,6 +81,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
         id,
       },
     });
+    await this.cacheRepository.delete(`order:${id}`)
   }
   async fetchDeliveriesByTransporterId(
     page: number,
