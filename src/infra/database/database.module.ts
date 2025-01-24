@@ -6,9 +6,10 @@ import { RecipientsRepository } from 'src/domain/repositories/recipient-reposito
 import { PrismaRecipientsRepository } from './prisma/repositories/prisma-recipients-repository';
 import { OrdersRepository } from 'src/domain/repositories/orders-repository';
 import { PrismaOrdersRepository } from './prisma/repositories/prisma-orders-repository';
+import { CacheModule } from '../cache/cache.module';
 
 @Module({
-  imports: [],
+  imports: [CacheModule],
   providers: [
     PrismaService,
     {
@@ -31,4 +32,4 @@ import { PrismaOrdersRepository } from './prisma/repositories/prisma-orders-repo
     OrdersRepository,
   ],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }
