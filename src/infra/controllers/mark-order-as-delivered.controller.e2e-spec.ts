@@ -11,6 +11,8 @@ import { OrderFactory } from 'test/factories/make-order';
 import { RecipientFactory } from 'test/factories/make-recipient';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { vi } from 'vitest';
+import { PhotoUploader } from 'src/domain/services/photo-uploader';
+import { FakePhotoUploader } from 'test/services/fake-photo-uploader';
 
 describe('Mark order as delivered (E2E)', () => {
   let app: INestApplication;
@@ -31,6 +33,8 @@ describe('Mark order as delivered (E2E)', () => {
         on: vi.fn(),
         off: vi.fn(),
       })
+      .overrideProvider(PhotoUploader)
+      .useClass(FakePhotoUploader)
       .compile();
     app = moduleRef.createNestApplication();
     orderFactory = moduleRef.get(OrderFactory);
