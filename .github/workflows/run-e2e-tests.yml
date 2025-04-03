@@ -18,6 +18,10 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: docker
           POSTGRES_DB: fast-feet-db
+      cache:
+        image: redis
+        ports:
+          - 6379:6379
 
     steps:
     - name: Checkout code
@@ -37,4 +41,13 @@ jobs:
         JWT_PUBLIC_KEY: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUEyYVFUa2JrREd6QXVXSnpMZElnSQppUnlINDVGWEg3RU9ZR3czMnM3RnB5aTRFYWNKbkJKakJxOUhaUjlGSUx1ZFRRdkpmUXdmaFA5dC9Uc0dMMHFZCm1ENXJtK1hZa3dhSVo0UkZiaGZvalRmTUZ5QjMxVWxCS21rNzJXbnF5bERMSkpoVDRQaFk5cnhxcjJ4ZVMzUlkKTXVPRWY3TlRsY2FjSmFGajk4a05wcVIzU3p1LzhOVkllTUpGWTVpYXZ2OGF2RGJGc1RGdkRvTnNaMTR5bllDTgpDL3k0YnRTQjA4V0xtSFRXLzl4MXRKOWoxZ09SNC9JSnlNVDVFVXVRblBpNHBteDJicmpmbk5aZGRIUndjSEQ5CktoYTJwV0w2a2xOUktrL0tCQktHS3FQbE1CWlNrMjhIRjJFMFlRYWIzNWJjZ3ZhbmRTOE8xZ2NabWIxekZsdVcKY3dJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
         DATABASE_URL: "postgresql://postgres:docker@localhost:5432/fast-feet-db?schema=public"
         PORT: 3333
+        E2E_VALID_CPF: "842.199.956-76" # generated in chatgpt
+        AWS_ACCESS_KEY_ID: ""
+        AWS_SECRET_ACCESS_KEY: ""
+        AWS_BUCKET_NAME: ""
+        CLOUDFLARE_ACCOUNT_ID: ""
+        SENDING_EMAIL_USERNAME: "johndoe@email.com"
+        SENDING_EMAIL_PASSWORD: "123456"
+        SENDING_EMAIL_HOST: "host"
+        SENDING_EMAIL_FROM: "johndoe@email.com"
     
